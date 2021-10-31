@@ -1,0 +1,95 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>只使用 CSS 实现下图中的效果</title>
+    <style>
+      .star {
+        margin: 50px 0;
+        position: relative;
+        display: block;
+        color: silver;
+        width: 0px;
+        height: 0px;
+        border-right: 100px solid transparent;
+        border-bottom: 70px solid silver;
+        border-left: 100px solid transparent;
+        -moz-transform: rotate(35deg);
+        -webkit-transform: rotate(35deg);
+        -ms-transform: rotate(35deg);
+        -o-transform: rotate(35deg);
+      }
+      .star:before {
+        border-bottom: 80px solid silver;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        position: absolute;
+        height: 0;
+        width: 0;
+        top: -45px;
+        left: -65px;
+        display: block;
+        content: "";
+        -webkit-transform: rotate(-35deg);
+        -moz-transform: rotate(-35deg);
+        -ms-transform: rotate(-35deg);
+        -o-transform: rotate(-35deg);
+      }
+      .star:after {
+        position: absolute;
+        display: block;
+        color: silver;
+        top: 3px;
+        left: -105px;
+        width: 0px;
+        height: 0px;
+        border-right: 100px solid transparent;
+        border-bottom: 70px solid silver;
+        border-left: 100px solid transparent;
+        -webkit-transform: rotate(-70deg);
+        -moz-transform: rotate(-70deg);
+        -ms-transform: rotate(-70deg);
+        -o-transform: rotate(-70deg);
+        content: "";
+      }
+      .btn-wapper {
+        margin: 0 auto;
+        width: 900px;
+        border-radius: 20 px;
+        padding: 30 px;
+        box-shadow: 0 0 12px;
+      }
+
+      .btn {
+        width: 900px;
+        border-radius: 20px;
+        box-shadow: 0px 0px 15px #767474;
+      }
+      .btn-inner {
+        justify-content: space-around;
+        display: flex;
+        box-shadow: 0px -96px 30px #c0c0c09e inset;
+        border-radius: 20px;
+        padding: 10px;
+      }
+      .content {
+        font-size: 60px;
+        line-height: 170px;
+        font-weight: bold;
+        color: #817f7f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="btn-wapper">
+      <div class="btn">
+        <div class="btn-inner">
+          <span class="star"></span>
+          <span class="content">CHECKOUT</span>
+          <span class="star"></span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
