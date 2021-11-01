@@ -1,0 +1,131 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #rectangle {
+        border: 2px solid;
+        position: fixed;
+        cursor: all-scroll;
+      }
+      #rectangle div {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid;
+        background: white;
+        cursor: all-scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="rectangle" style="top: 30; left: 30; width: 200; height: 200">
+      <div
+        class="small_rectangle"
+        style="left: -10px; top: -10px"
+        id="top_left"
+      ></div>
+      <div
+        class="small_rectangle"
+        style="left: -10px; bottom: -10px"
+        id="bottom_left"
+      ></div>
+      <div
+        class="small_rectangle"
+        style="right: -10px; top: -10px"
+        id="top_right"
+      ></div>
+      <div
+        class="small_rectangle"
+        style="right: -10px; bottom: -10px"
+        id="bottom_right"
+      ></div>
+    </div>
+  </body>
+  <script>
+    window.onload = function () {
+      function rectangleMove() {
+        var obox = document.getElementById("rectangle");
+        //1、给需要移动的元素添加onmousedown事件,给拖动做好准备
+        obox.onmousedown = function (evt) {
+          var oEvent = evt || event;
+          var disX = oEvent.clientX - parseInt(obox.style.left);
+          var disY = oEvent.clientY - parseInt(obox.style.top);
+
+          document.onmousemove = function (evt) {
+            var oEvent2 = evt || event;
+            obox.style.left = oEvent2.clientX - disX;
+            obox.style.top = oEvent2.clientY - disY;
+          };
+          //停止拖动
+          document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+        };
+      }
+
+      function smallRectangleMove() {
+        var smallBoxes = document.getElementsByClassName("small_rectangle");
+        var obox = document.getElementById("rectangle");
+
+        for (let i = 0; i < smallBoxes.length; i++) {
+          const currentSmallBox = smallBoxes[i];
+          currentSmallBox.onmousedown = function (evt) {
+            var oEvent = evt || event;
+            oEvent.stopPropagation();
+            var preClientX = oEvent.clientX;
+            var preClientY = oEvent.clientY;
+            var disY = oEvent.clientY - parseInt(obox.style.top);
+            var disX = oEvent.clientX - parseInt(obox.style.left);
+
+            document.onmousemove = function (evt) {
+              var oboxWidth = parseInt(obox.style.width);
+              var oboxHeight = parseInt(obox.style.height);
+              var oEvent2 = evt || event;
+              var currClientX = oEvent2.clientX;
+              var currClientY = oEvent2.clientY;
+              styleDisX = preClientX - currClientX;
+              styleDisY = preClientY - currClientY;
+              switch (currentSmallBox.id) {
+                case "top_left":
+                  obox.style.left = currClientX - disX;
+                  obox.style.top = currClientY - disY;
+                  obox.style.width = oboxWidth + styleDisX;
+                  obox.style.height = oboxHeight + styleDisY;
+                  break;
+                case "bottom_left":
+                  obox.style.left = currClientX - disX;
+                  obox.style.width = oboxWidth + styleDisX;
+                  obox.style.height = oboxHeight - styleDisY;
+                  break;
+                case "top_right":
+                  obox.style.top = currClientY - disY;
+                  obox.style.width = oboxWidth - styleDisX;
+                  obox.style.height = oboxHeight + styleDisY;
+                  break;
+                case "bottom_right":
+                  obox.style.width = oboxWidth - styleDisX;
+                  obox.style.height = oboxHeight - styleDisY;
+                  break;
+              }
+
+              preClientX = currClientX;
+              preClientY = currClientY;
+            };
+            //停止拖动
+            document.onmouseup = function () {
+              document.onmousemove = null;
+              document.onmouseup = null;
+            };
+          };
+        }
+      }
+
+      smallRectangleMove();
+      rectangleMove();
+    };
+  </script>
+</html>
